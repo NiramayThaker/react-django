@@ -18,7 +18,7 @@ function Form({ route, method }) {
         setLoading(true);
 
         try {
-            console.log("Submitting to route:", route);
+            // console.log("Submitting to route:", route);
             const res = await api.post(route, { username, password });
 
             if (method === "login") {
