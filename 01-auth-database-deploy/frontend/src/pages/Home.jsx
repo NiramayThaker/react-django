@@ -1,11 +1,15 @@
 import { React, useEffect, useState } from 'react'
 import api from '../api'
+import Note from '../components/Note'
+import { useNavigate } from "react-router-dom";
+import "../styles/Home.css"
 
 function Home() {
 
   const [notes, setNotes] = useState([])
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
+  const navigate = useNavigate();
   
   useEffect(() => {
     getNotes();
@@ -24,7 +28,10 @@ function Home() {
   const deleteNote = (id) => {
     api.delete(`/api/notes/delete/${id}`)
     .then(res => {
-      if(res.status === 204) alert("Note deleted successfully");
+      if(res.status === 204) {
+        alert("Note deleted successfully");
+        location.reload()
+      }
       else alert("Error deleting note");
       getNotes
     })
@@ -35,7 +42,10 @@ function Home() {
     e.preventDefault();
     api.post("/api/notes/", {title, content})
     .then(res => {
-      if(res.status === 201) alert("Note created successfully");
+      if(res.status === 201) {
+        alert("Note created successfully");
+        location.reload()
+      }
       else alert("Error creating note");
     }).catch(err => {
       alert(err);
@@ -45,13 +55,20 @@ function Home() {
 
   return (
     <div>
+      
+      <button onClick={() => navigate("/logout")} type="button">
+        Logout
+      </button>
+
       <div>
         <h2>Notes</h2>
-
+        {notes.map((note) => 
+          <Note note={note} onDelete={deleteNote} key={note.id} />
+        )}
       </div>
       <div>
         <h2>Notes</h2>
-        <form onSubmit={createNote}>
+        <form onSubmit={createNote} className="note-form">
           <label htmlFor="title">Title</label>
           <br/>
           <input id="title" value={title} name="title" type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)} required />

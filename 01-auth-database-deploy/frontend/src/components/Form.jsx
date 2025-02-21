@@ -3,7 +3,7 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css"
-// import LoadingIndicator from "./LoadingIndicator";
+import LoadingIndicator from "./LoadingIndicator";
 
 function Form({ route, method }) {
     const [username, setUsername] = useState("");
@@ -26,12 +26,12 @@ function Form({ route, method }) {
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 navigate("/")
             } else {
-                navigate("/login")
+                navigate("/login");
             }
         } catch (error) {
             alert(error)
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
@@ -52,10 +52,26 @@ function Form({ route, method }) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
             />
-            {/* {loading && <LoadingIndicator />} */}
+            {loading && <LoadingIndicator />}
             <button className="form-button" type="submit">
                 {name}
             </button>
+
+            {method === "login" ? (
+                <button
+                    className="form-button"
+                    onClick={() => navigate("/register")}
+                    type="button"
+                >
+                    Don't have an account ? Get Registered
+                </button>
+            ) : (<button
+                className="form-button"
+                onClick={() => navigate("/login")}
+                type="button"
+            >
+                Already have an account ? Login
+            </button>)}
         </form>
     );
 }
