@@ -2,6 +2,7 @@ from flask import request, jsonify
 from config import app, db
 from models import Contact
 
+
 @app.route("/contacts", methods=["GET"])
 def get_contacts():
     contacts = Contact.query.all()
@@ -41,6 +42,39 @@ def create_contact():
     # db.session.add(new_contact)
     # db.session.commit()
     # return jsonify(new_contact.to_json())
+
+
+@app.route("/update_contact/<int:user_id>", methods=["PUT"])
+def update_contact(user_id):
+    contact = Contact.query.get(user_id)
+    if not contact:
+        return (
+            jsonify({"error": "Contact not found"}),
+            404
+        )
+
+    data = request.json
+    contact.first_name = data.get("firstName", contact.first_name)
+    contact.last_name = data.get("lastName", contact.last_name)
+    contact.email = data.get("email", contact.email)
+    
+    db.session.commit()
+    return jsonify({"message": "Contact updated successfully"})
+
+
+@app.route("/delete_contact/<int:user_id>", methods=["DELETE"])
+def delete_contact(user_id):
+    contact = Contact.query.get(user_id)
+    if not contact:
+        return (
+            jsonify({"message": "No user found to delete"}, 400)
+        )
+
+    db.session.delete(contact)
+    db.session.commit()
+
+    return jsonify({"message": "Contact deleted successfully"})
+
 
 if __name__ == "__main__":
 
