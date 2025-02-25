@@ -4,3 +4,7 @@ Content-Type: application/json
 {
     "name": "Pear"
 }
+
+###
+GET http://localhost:8000/fruits
+
