@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -16,6 +16,7 @@ class Fruits(BaseModel):
 app = FastAPI()
 
 origins = [
+	"http://localhost:5173",
 	"http://localhost:3000",
 ]
 

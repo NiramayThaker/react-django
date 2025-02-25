@@ -32,7 +32,9 @@ const FruitList = () => {
       <h2>Fruits List</h2>
       <ul>
         {fruits.map((fruit, index) => (
-          <li key={index}>{fruit.name}</li>
+          <li key={index}>{fruit.name}
+            <button onClick={() => deleteFruit(fruit.name)}>Delete</button>
+          </li>
         ))}
       </ul>
       <AddFruitForm addFruit={addFruit} />
