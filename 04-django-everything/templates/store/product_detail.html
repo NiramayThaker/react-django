@@ -72,7 +72,7 @@
         <hr>
         
         {% if product.stock <= 0 %}
-            <p class="text-danger">Out of stock</p>
+            <p class="text-danger"><strong>Out of stock</strong></p>
         {% else %}
             <a href="./product-detail.html" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
         {% endif %}
