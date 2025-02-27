@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+	'store',
 	'items',
 	'users',
 ]
@@ -122,3 +123,6 @@ STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
 	'ecom/static',
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
