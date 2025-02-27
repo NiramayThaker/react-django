@@ -15,8 +15,5 @@ class Product(models.Model):
 	created_date = models.DateTimeField(auto_now_add=True)
 	modified_date = models.DateTimeField(auto_now=True)
 
-	def get_url(self):
-		return f''
-
 	def __str__(self):
 		return self.product_name
