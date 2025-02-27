@@ -21,3 +21,15 @@ def store(request, category=None):
         'product_count': product_count,
     }
     return render(request, 'store/store.html', context)
+
+
+def product_detail(request, category, product):
+    try:
+        single_product = Product.objects.get(category__slug=category, slug=product)
+        context = {
+            'product': single_product,
+        }
+    except:
+        raise Exception('Product does not exist')
+
+    return render(request, 'store/product_detail.html', context=context)
