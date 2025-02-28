@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from items.models import Category
+# from carts.models import CartItem
 
 
 # Create your models here.
@@ -18,6 +19,11 @@ class Product(models.Model):
 
 	def get_url(self):
 		return reverse('product_detail', args=[self.category.slug, self.slug])
+	
+	def is_in_cart(self):
+		# Import CartItem here to avoid circular import issues
+		from carts.models import CartItem
+		return CartItem.objects.filter(product=self).exists()
 
 	def __str__(self):
 		return self.product_name

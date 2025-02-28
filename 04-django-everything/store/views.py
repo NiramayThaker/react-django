@@ -8,6 +8,7 @@ def store(request, category=None):
     categories = None
     products = None
 
+
     if category is not None:
         categories = get_object_or_404(Category, slug=category)
         products = Product.objects.filter(category=categories, is_available=True)
@@ -26,8 +27,11 @@ def store(request, category=None):
 def product_detail(request, category, product):
     try:
         single_product = Product.objects.get(category__slug=category, slug=product)
+        # in_Cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
+
         context = {
             'product': single_product,
+            # 'is_in_cart': in_cart,
         }
     except:
         raise Exception('Product does not exist')

@@ -19,7 +19,11 @@ class CartItem(models.Model):
     @property
     def sub_total(self):
         return self.product.price * self.quantity
-    
+
+    # @property
+    # def total_cart_items(self):
+    #     return sum([item.quantity for item in CartItem.objects.filter(cart=self.cart)])
+
     def __str__(self):
         return self.product.product_name
 
