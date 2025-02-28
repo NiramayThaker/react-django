@@ -33,13 +33,23 @@ def store(request, category=None):
 def product_detail(request, category, product):
     try:
         single_product = Product.objects.get(category__slug=category, slug=product)
-        # in_Cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
-
         context = {
             'product': single_product,
-            # 'is_in_cart': in_cart,
         }
     except:
         raise Exception('Product does not exist')
 
     return render(request, 'store/product_detail.html', context=context)
+
+
+def search(request):
+    product = Product.objects.filter(
+        product_name__icontains=request.GET['item'],
+        is_available=True   
+    ).order_by('-created_date')
+
+    context = {
+        'products': product,
+        'product_count': product.count(),
+    }
+    return render(request, 'store/store.html', context)

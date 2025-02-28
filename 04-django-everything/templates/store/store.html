@@ -124,7 +124,7 @@
     
     <header class="border-bottom mb-4 pb-3">
             <div class="form-inline">
-                {% if product_count > 0 %}
+                {% if product_count == 0 or product_count == 1 %}
                     <span class="mr-md-auto">{{product_count}} Item found </span>
                 {% else %}
                     <span class="mr-md-auto">{{product_count}} Items found </span>

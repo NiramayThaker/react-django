@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from store.models import Product
 from .models import Cart, CartItem
 
@@ -34,6 +35,10 @@ def _cart_id(request):
 
 
 def add_cart(request, product_id):
+    if request.method == 'POST':
+        color = request.POST.get('color')
+        size = request.POST.get('size')
+
     product = Product.objects.get(id=product_id)
     try:
         # Get the cart using the cart_id present in the session
