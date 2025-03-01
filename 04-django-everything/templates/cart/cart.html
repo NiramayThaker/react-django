@@ -34,7 +34,14 @@
                 <a href="{{ item.product.get_url }}"><div class="aside"><img src="{{item.product.image.url}}" class="img-sm"></div></a>
                 <figcaption class="info">
                     <a href="{{ item.product.get_url }}" class="title text-dark">{{item.product.product_name}}</a>
-                    <p class="text-muted small">Color: 25 Mpx <br> Size: Canon</p>
+                    <p class="text-muted small">
+                        {% if item.variations.all %}
+                            {% for variation in item.variations.all %}
+                                {{ variation.variation_category | capfirst }}: {{ variation.variation_value | capfirst }}
+                                <br>
+                            {% endfor %}
+                        {% endif %}
+                    </p>
                 </figcaption>
             </figure>
         </td>
@@ -44,11 +51,20 @@
         <div class="col"> 
             <div class="input-group input-spinner">
                 <div class="input-group-prepend">
-                <a href="{% url "remove_cart" item.product.id %}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
+                    <form method="POST" action="{% url 'remove_cart' item.product.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-light" type="submit" id="button-minus"> <i class="fa fa-minus"></i> </button>
+                    </form>
                 </div>
                 <input type="text" class="form-control"  value="{{ item.quantity }}">
                 <div class="input-group-append">
-                <a href="{% url "add_cart" item.product.id %}" class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
+                    <form method="POST" action="{% url 'add_cart' item.product.id %}">
+                        {% csrf_token %}
+                        {% for items in cart_items.variations.all %}
+                            <input type="hidden" name="{{ items.variation_category | lower }}" value="{{ items.variation_value | capfirst }}">
+                            {% endfor %}
+                            <button class="btn btn-light" type="submit" id="button-plus"> <i class="fa fa-plus"></i> </button>
+                    </form>
                 </div>
             </div> <!-- input-group.// -->
         </div> <!-- col.// -->
