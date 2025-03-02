@@ -51,7 +51,7 @@
         <div class="col"> 
             <div class="input-group input-spinner">
                 <div class="input-group-prepend">
-                    <form method="POST" action="{% url 'remove_cart' item.product.id %}">
+                    <form method="POST" action="{% url 'remove_cart' item.product.id item.id %}">
                         {% csrf_token %}
                         <button class="btn btn-light" type="submit" id="button-minus"> <i class="fa fa-minus"></i> </button>
                     </form>
