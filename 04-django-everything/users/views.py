@@ -42,11 +42,15 @@ def register(request):
                 'token': default_token_generator.make_token(user),
             })
 
-            to_email = email 
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
+            try:
+                to_email = email 
+                send_email = EmailMessage(mail_subject, message, to=[to_email])
+                messages.success(request, 'email Successful!')
+                send_email.send()
+            except:
+                print("Can't send email")
 
-            messages.success(request, 'Registration Successful!')
+            # messages.success(request, 'Registration Successful!')
             return redirect('login')
 
     context = {
