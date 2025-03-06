@@ -12,6 +12,8 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
+import logging
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 def register(request):
@@ -45,13 +47,11 @@ def register(request):
             try:
                 to_email = email 
                 send_email = EmailMessage(mail_subject, message, to=[to_email])
-                messages.success(request, 'email Successful!')
                 send_email.send()
-            except:
-                print("Can't send email")
-
-            # messages.success(request, 'Registration Successful!')
-            return redirect('login')
+                messages.success(request, 'Email sent successfully!')
+            except Exception as e:
+                logger.error("Error sending email: %s", e)
+                messages.error(request, "Unable to send activation email. Please try again later.")
 
     context = {
         'form': form
